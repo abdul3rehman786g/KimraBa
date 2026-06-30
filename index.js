@@ -11,7 +11,7 @@ import { assistantRouter } from "./Routes/assistant.route.js"
 const app = express()
 
 const privateCors = cors({
-  origin: ["https://kirma-ai-pjpg.vercel.app"],
+  origin: ["https://kimraai.vercel.app"],
   credentials: true
 });
 
