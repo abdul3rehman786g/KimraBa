@@ -10,35 +10,34 @@ import { assistantRouter } from "./Routes/assistant.route.js"
 
 const app = express()
 
-const privateCors =
- cors({
- origin:[
- "https://kirma-ai-pjpg.vercel.app" ],
-
- credentials: true
+const privateCors = cors({
+  origin: ["https://kirma-ai-pjpg.vercel.app"],
+  credentials: true
 });
 
-const publicCors=
-cors({
-  origin:"*",
+const publicCors = cors({
+  origin: "*",
 });
-
 
 app.use(express.json())
 app.use(cookieParser())
 
-const PORT= process.env.PORT
+const PORT = process.env.PORT || 5000
 
-app.get("/", (req,res)=>{
+app.get("/", (req, res) => {
   res.json("Hello from the server ")
 })
 
-app.use("/api/auth",privateCors, authRouter)
-app.use("/api/user",privateCors, userRouter)
+app.use("/api/auth", privateCors, authRouter)
+app.use("/api/user", privateCors, userRouter)
+app.use("/api/assistant", publicCors, assistantRouter)
 
-app.use("/api/assistant" ,publicCors, assistantRouter)
+connectDB()
 
-app.listen(PORT ,()=>{
-  console.log(`Server started on Port ${PORT}`)
-  connectDB ()
-})
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Server started on Port ${PORT}`)
+  })
+}
+
+export default app
